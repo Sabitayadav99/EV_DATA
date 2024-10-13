@@ -1,4 +1,5 @@
 **India EV Market Data Project**
+
 _Overview_
 
 In this project, I analyzed data about Electric Vehicles (EV) in India. I looked at where EV makers are located, how many public charging stations (PCS) are working, how many EVs were registered, and how many EVs were sold by different companies over time. I also made graphs and charts using Python and Power BI to understand the data better.
@@ -80,4 +81,5 @@ _Files I Created_
 *Total_Sales_By_Maker.csv
 
 _Conclusion_
+
 This project helped me understand the EV market in India by analyzing where the makers are located, how charging infrastructure is distributed, and how sales have changed over time. The Power BI dashboards and yearly sales insights make it easier to understand these trends visually, with flexibility to explore other categories as needed.
