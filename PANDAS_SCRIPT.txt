@@ -1,0 +1,128 @@
+#IMPORTING THE DATA
+CODE:
+import pandas as pd
+df1=pd.read_csv("/kaggle/input/india-ev-market-data/EV Maker by Place.csv")
+df2=pd.read_csv("/kaggle/input/india-ev-market-data/OperationalPC.csv")
+df3=pd.read_csv("/kaggle/input/india-ev-market-data/Vehicle Class - All.csv")
+df4=pd.read_csv("/kaggle/input/india-ev-market-data/ev_cat_01-24.csv")
+df5=pd.read_csv("/kaggle/input/india-ev-market-data/ev_sales_by_makers_and_cat_15-24.csv")
+
+#ANALYSING INFORMATION OF DATA
+[Finding if there is any null values by .info()]
+
+CODE:
+df1.info()
+print('\n\n')
+df2.info()
+print('\n\n')
+df3.info()
+print('\n\n')
+df4.info()
+print('\n\n')
+df5.info()
+
+#DISPLAYING DATA (df1)
+{To see whether the data have some unexpected values}
+
+CODE:
+df1
+
+#EV MAKERS PER STATE
+
+CODE:
+EV_Makers_Per_State=df1['State'].value_counts()
+EV_Makers_Per_State
+EV_Makers_Per_State.to_csv('EV_Makers_Per_State.csv')
+
+#GRAPH PLOT FOR PRACTICE
+
+CODE:
+df1['State'].value_counts().plot(kind='bar')
+
+#DISPLAYING DATA (df2)
+
+CODE:
+df2
+
+#TOP SEVEN STATES HAVING PCS
+
+CODE:
+
+Top_States= df2.sort_values(by="No. of Operational PCS", ascending=False).head(7)
+print(Top_States)
+Top_seven_states_having_PCS=pd.DataFrame(Top_States)
+Top_seven_states_having_PCS.to_csv('Top_seven_states_having_PCS.csv', index=False)
+Top_seven_states_having_PCS
+
+#DISPLAYING DATA (df3)
+
+CODE:
+df3
+
+#TOP REGISTRATION
+
+CODE:
+Top_Registration=df3.sort_values(by='Total Registration', ascending=True).head(7)
+Top_Registration
+Top_Registration.to_csv('Top_7_Registration.csv',index=False)
+
+#DISPLAYING DATA (df4)
+
+CODE:
+df4
+
+#CLEANING DATA
+
+CODE:
+df4 =df4[df4["Date"] != '0']
+
+#FORMATTING DATA
+
+CODE:
+df4['Date']=pd.to_datetime(df4['Date'], format='%d/%m/%y')
+
+#CREATING  COLUMNS
+
+CODE:
+df4["Year"]=df4['Date'].dt.year
+df4["Month"]=df4['Date'].dt.month
+
+#CREATING YEARLY DATAFRAME
+
+CODE:
+Yearly_Data=df4.groupby(['Year']).sum(numeric_only=True)
+Yearly_Data
+Yearly_Data.to_csv('Yearly_Data.csv')
+Yearly_Data.head()
+
+#DISPLAYING DATA (df5)
+
+CODE:
+df5
+
+#CLEANING DATA CHECK
+
+CODE:
+null_count=df5.isnull().sum()
+null_count
+
+#SALES BY CATEGORY
+
+CODE:
+Sales_By_Category=df5.groupby('Cat').sum(numeric_only=True).reset_index()
+Sales_By_Category
+Total_Sales_By_Category = df5.groupby('Cat').sum(numeric_only=True).reset_index()
+Total_Sales_By_Category
+Total_Sales_By_Category['Total_Sales'] = Total_Sales_By_Category.iloc[:, 2:].sum(axis=1)
+Total_Sales_By_Category.to_csv('Total_Sales_By_Category.csv',index=False)
+Total_Sales_By_Category
+
+#SALES BY MAKER
+
+CODE:
+Total_Sales_By_Maker=df5.groupby('Maker').sum(numeric_only=True).reset_index()
+Total_Sales_By_Maker
+Total_Sales_By_Maker['Total Sales']=Total_Sales_By_Maker.iloc[:,2:].sum(axis=1)
+Total_Sales_By_Maker= Total_Sales_By_Maker.sort_values(by='Total Sales',ascending=False).head(7)
+Total_Sales_By_Maker
+Total_Sales_By_Maker.to_csv('Total_Sales_By_Maker.csv',index=False)
